@@ -1,0 +1,153 @@
+binary_sensor.floorplan:
+ custom_ui_state_card: floorplan
+ config: !include floorplan.yaml
+sensor.weather_precip_intensity:
+  friendly_name: 'Rainfall'
+sensor.weather_humidity:
+  friendly_name: 'Outdoor Humidity'
+sensor.weather_temperature:
+  friendly_name: 'Outdoor Temp'
+sensor.speedtest_download:
+  friendly_name: 'Download'
+  icon: mdi:speedometer
+sensor.speedtest_upload:
+  friendly_name: 'Upload'
+  icon: mdi:speedometer
+sensor.sonosoffice:
+  icon: mdi:speaker
+sensor.sonosfamilyroom:
+  icon: mdi:speaker
+sensor.sonosbasement:
+  icon: mdi:speaker
+sensor.osmcpi1b:
+  icon: mdi:raspberrypi
+sensor.osmcpi3:
+  icon: mdi:raspberrypi
+sensor.hal9000:
+  icon: mdi:raspberrypi
+sensor.viziotv:
+  icon: mdi:television
+sensor.nintendoswitch:
+  icon: mdi:nintendo-switch
+sensor.savantremote:
+  icon: mdi:remote
+device_tracker.sonosoffice:
+  hidden: true
+device_tracker.sonosfamilyroom:
+  hidden: true
+device_tracker.sonosbasement:
+  hidden: true
+device_tracker.osmcpi1b:
+  hidden: true
+device_tracker.osmcpi3:
+  hidden: true
+device_tracker.viziotv:
+  hidden: true
+device_tracker.savantremote:
+  hidden: true
+device_tracker.nintendoswitch:
+  hidden: true
+binary_sensor.linear_unknown_type2001_id0102_sensor:
+  hidden: true
+binary_sensor.linear_unknown_type2001_id0102_sensor_2:
+  hidden: true
+binary_sensor.linear_unknown_type2001_id0102_sensor_3:
+  hidden: true
+sensor.linear_unknown_type2001_id0102_alarm_level:
+  hidden: true
+sensor.linear_unknown_type2001_id0102_alarm_level_2:
+  hidden: true
+sensor.linear_unknown_type2001_id0102_alarm_level_3:
+  hidden: true
+sensor.linear_unknown_type2001_id0102_alarm_type:
+  hidden: true
+sensor.linear_unknown_type2001_id0102_alarm_type_2:
+  hidden: true
+sensor.linear_unknown_type2001_id0102_alarm_type_3:
+  hidden: true
+sensor.linear_unknown_type2001_id0102_burglar:
+  hidden: true
+sensor.linear_unknown_type2001_id0102_burglar_2:
+  hidden: true
+sensor.linear_unknown_type2001_id0102_burglar_3:
+  hidden: true
+sensor.linear_unknown_type2001_id0102_sourcenodeid:
+  hidden: true
+sensor.linear_unknown_type2001_id0102_sourcenodeid_2:
+  hidden: true
+sensor.linear_unknown_type2001_id0102_sourcenodeid_3:
+  hidden: true
+device_tracker.magentolaptop:
+  hidden: true
+device_tracker.10da435145b4:
+  hidden: true
+device_tracker.18b4306ad646:
+  hidden: true
+device_tracker.24e314674133:
+  hidden: true
+device_tracker.2cf0ee2ee6ac:
+  hidden: true
+device_tracker.787e61e47216:
+  hidden: true
+device_tracker.98e0d95d32c2:
+  hidden: true
+device_tracker.a4b80560ec38:
+  hidden: true
+device_tracker.f431c3268944:
+  hidden: true
+device_tracker.fcdbb3b91c6b:
+  hidden: true
+binary_sensor.linear_unknown_type2002_id0203_sensor:
+  hidden: true
+sensor.linear_unknown_type2002_id0203_sourcenodeid:
+  hidden: true
+sensor.linear_unknown_type2002_id0203_direction:
+  hidden: true
+sensor.linear_unknown_type2002_id0203_burglar:
+  hidden: true
+sensor.linear_unknown_type2002_id0203_alarm_type:
+  hidden: true
+sensor.linear_unknown_type2002_id0203_alarm_level:
+  hidden: true
+sensor.linear_unknown_type2002_id0203_temperature:
+  friendly_name: "Current Temperature"
+  icon: mdi:thermometer-lines
+sensor.office_motion:
+  icon: mdi:run
+sensor.ip_webcam_audio_connections:
+  hidden: true
+sensor.ip_webcam_video_connections:
+  hidden: true
+sensor.gm_iphone_battery_level:
+  hidden: true
+sensor.gm_iphone_battery_level_2:
+  hidden: true
+sensor.gm_iphone_battery_level_3:
+  hidden: true
+sensor.gm_iphone_battery_state:
+  hidden: true
+sensor.gm_iphone_battery_state_2:
+  hidden: true
+sensor.gm_iphone_battery_state_3:
+  hidden: true
+device_tracker.gm_iphone:
+  hidden: true
+device_tracker.ecobee_mb:
+  hidden: true
+sensor.pihole_ads_blocked_today:
+  hidden: true
+sensor.dark_sky_dew_point:
+  hidden: true
+sensor.dark_sky_temperature:
+  hidden: true
+switch.pihole_temp_disable:
+  friendly_name: "Pi-Hole Temp 1hr Disable"
+light.family_room_table_light_level:
+  friendly_name: "Side Table Light"
+light.office_light_level:
+  friendly_name: "Office Light"
+sensor.tide_duxbury_beach_next_low:
+  icon: mdi:beach
+sensor.tide_duxbury_beach_next_high:
+  icon: mdi:beach
+

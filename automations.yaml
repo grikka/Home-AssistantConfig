@@ -1,0 +1,186 @@
+- id: back_door_night
+  alias: Back door (night)
+  trigger:
+    platform: state
+    entity_id: sensor.deck_door
+    from: Closed
+    to: Open
+  condition:
+    condition: time
+    after: '21:00'
+  action:
+    service: notify.ios_gm_iphone
+    data:
+      message: Deck door open *late night*
+      data:
+        push:
+          badge: 5
+- id: basement_door_night
+  alias: Basement door (night)
+  trigger:
+    platform: state
+    entity_id: sensor.basement_door
+    from: Closed
+    to: Open
+  condition:
+    condition: time
+    after: '21:00'
+  action:
+    service: notify.ios_gm_iphone
+    data:
+      message: Basement door open *late night*
+      data:
+        push:
+          badge: 1
+- id: front_door_night
+  alias: Front door (night)
+  trigger:
+    platform: state
+    entity_id: sensor.front_door
+    from: Closed
+    to: Open
+  condition:
+    condition: time
+    after: '21:00'
+  action:
+    service: notify.ios_gm_iphone
+    data:
+      message: Front door open *late night*
+      data:
+        push:
+          badge: 10
+- id: night_theme
+  alias: Set dark theme for the night
+  initial_state: true
+  trigger:
+    platform: time
+    at: '19:00'
+  action:
+  - service: frontend.set_theme
+    data:
+      name: darkcyan
+- id: security_disarm
+  alias: Security - Disarmed
+  trigger:
+    platform: state
+    entity_id: alarm_control_panel.ha_alarm
+    to: disarmed
+  action:
+    service: notify.ios_gm_iphone
+    data:
+      message: clear_badge
+- id: security_arm_away
+  alias: Security - Armed Away
+  trigger:
+    - platform: state
+      entity_id:
+       - sensor.front_door
+       - sensor.front_storm_door
+       - sensor.deck_door
+       - sensor.deck_storm_door
+       - sensor.basement_door
+       - sensor.basement_garage_door
+       - sensor.kate_garage_door
+       - sensor.greg_garage_door
+       - sensor.familyroom_french_door
+      from: Closed
+      to: Open
+    - platform: state
+      entity_id:
+       - sensor.office_motion
+       - binary_sensor.upstairs_occupancy
+       - binary_sensor.janes_room_occupancy
+      from: clear
+      to: detected
+  condition:
+    condition: state
+    entity_id: alarm_control_panel.ha_alarm
+    state: armed_away
+  action:
+    service: notify.ios_gm_iphone
+    data:
+      message: Danger! Danger! Door breach and motion detected!
+      data:
+        push:
+          badge: 666
+- id: security_arm_home
+  alias: Security - Armed Home
+  trigger:
+    platform: state
+    entity_id:
+     - sensor.front_door
+     - sensor.front_storm_door
+     - sensor.deck_door
+     - sensor.deck_storm_door
+     - sensor.basement_door
+     - sensor.basement_garage_door
+     - sensor.kate_garage_door
+     - sensor.greg_garage_door
+     - sensor.familyroom_french_door
+    from: Closed
+    to: Open
+  condition:
+    condition: state
+    entity_id: alarm_control_panel.ha_alarm
+    state: armed_home
+  action:
+    service: notify.ios_gm_iphone
+    data:
+      message: Door Breach!
+      data:
+        push:
+          badge: 123
+- id: alarm_arm_on_away
+  alias: Alarm Away when Leave home
+  trigger:
+    platform: state
+    entity_id:
+      - device_tracker.greg
+      - device_tracker.katie
+    from: home
+    to: not_home
+  action:
+    service: alarm_control_panel.security_arm_away
+    entity_id: alarm_control_panel.ha_alarm
+    data:
+      code: !secret alarm_code
+- id: alarm_disarm_on_return
+  alias: Alarm disarm when return home
+  trigger:
+    platform: state
+    entity_id:
+      - device_tracker.greg
+      - device_tracker.katie
+    from: not_home
+    to: home
+  action:
+    service: alarm_control_panel.security_disarm
+    entity_id: alarm_control_panel.ha_alarm
+    data:
+      code: !secret alarm_code
+- id: turn_office_light_on_night_motion
+  alias: Office light on when motion at night
+  trigger:
+    - platform: state
+      entity_id: sensor.office_motion
+      to: 'detected'
+  condition:
+    - condition: sun
+      after: sunset
+      after_offset: "-00:45:00"
+  action:
+    - service: light.turn_on
+      entity_id: light.office_light_level
+- id: turn_office_light_off_after_5_min
+  alias: Office light off after 5 min when motion off
+  trigger:
+    - platform: state
+      entity_id: sensor.office_motion
+      to: 'clear'
+      for:
+        minutes: 5
+        seconds: 00
+  action:
+    - service_template: light.turn_off
+      entity_id: light.office_light_level
+

@@ -1,0 +1,19 @@
+- platform: nmap_tracker
+  hosts: 192.168.0.1/24
+  home_interval: 10
+  track_new_devices: yes
+  # Seconds between each scan for new devices (default: 12)
+  interval_seconds: 12
+  # Seconds to wait till marking someone as not home after not being seen
+  # (default: 180)
+  consider_home: 180
+- platform: automatic
+  client_id: !secret automatic_client
+  secret: !secret automatic_secret
+  username: !secret automatic_user
+  password: !secret automatic_password
+- platform: netgear
+  host: !secret router_ip
+  username: !secret router_admin
+  password: !secret router_password
+

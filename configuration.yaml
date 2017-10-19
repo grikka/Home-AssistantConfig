@@ -1,0 +1,139 @@
+homeassistant:
+  # Name of the location where Home Assistant is running
+  name: Hal 9000
+  # Location required to calculate the time the sun rises and sets
+  latitude: !secret latitude
+  longitude: !secret longitude
+  elevation: !secret elevation
+  # C for Celsius, F for Fahrenheit
+  temperature_unit: F
+  unit_system: imperial
+  # Pick yours from here: http://en.wikipedia.org/wiki/List_of_tz_database_time_zones
+  time_zone: !secret timezone
+  customize: !include customize.yaml
+
+# Enable Alarm
+alarm_control_panel: !include alarm.yaml
+
+# Enable iOS component
+ios:
+
+# Text to speech
+tts:
+  platform: google
+  cache: true
+  cache_dir: /tmp/tts
+  time_memory: 300
+
+# Enable HTTP security
+http:
+  api_password: !secret http_password
+  server_port: 8123
+
+# Enable Floorplan
+binary_sensor:
+  - platform: mqtt
+    state_topic: dummy/floorplan/sensor
+    name: Floorplan
+
+# Prediction of weather
+sensor: !include sensors.yaml
+
+# Pi-Hole switch
+switch:
+  - platform: command_line
+    switches:
+      pihole_temp_disable:
+        command_on: "curl -X GET 'http://192.168.0.13/admin/api.php?enable&auth=bf45637bdc4f596ea835f3be41052d83319e08f81489bb6a524b7b92174b90b3'"
+        command_off: "curl -X GET 'http://192.168.0.13/admin/api.php?disable=3600&auth=bf45637bdc4f596ea835f3be41052d83319e08f81489bb6a524b7b92174b90b3'"
+        command_state: "curl -X GET 'http://192.168.0.13/admin/api.php?status&auth=bf45637bdc4f596ea835f3be41052d83319e08f81489bb6a524b7b92174b90b3'"
+        value_template: "{{ value_json.status == 'enabled' }}"
+
+camera:
+  platform: generic
+  still_image_url: https://radblast.wunderground.com/cgi-bin/radar/WUNIDS_map?station=BOX&brand=wui&num=10&delay=15&type=N0R&frame=0&scale=1.000&noclutter=0&showstorms=0&mapx=400&mapy=240&centerx=400&centery=240&transx=0&transy=0&showlabels=1&severe=0&rainsnow=0&lightning=0&smooth=0&rand=24452123&lat=0&lon=0&label=you
+  name: BOS
+
+android_ip_webcam:
+  - host: !secret oil-cam
+
+google:
+  client_id: !secret google_id
+  client_secret: !secret google_secret
+
+nest:
+  username: !secret nest_user
+  password: !secret nest_password
+
+climate:
+  platform: nest
+
+ecobee:
+  api_key: !secret ecobee_key
+
+# Enables the frontend
+frontend:
+  themes: !include_dir_merge_named themes/
+
+# Track the sun
+sun:
+
+# Checks for available updates
+updater:
+
+# View all events in a logbook
+logbook:
+
+# Enables support for tracking state changes over time.
+history:
+
+# Enables configuration panel.
+config:
+
+# Discover some devices automatically
+discovery:
+
+ifttt:
+  key: !secret ifttt_key
+
+mqtt:
+  embedded:
+    listeners:
+      default:
+        max-connections: 500
+        type: tcp
+        bind: 127.0.0.1:1888
+  broker: 127.0.0.1
+  port: 1888
+
+usps:
+  username: !secret usps_user
+  password: !secret usps_password
+
+zwave:
+  usb_path: /dev/ttyACM0
+  config_path: /srv/hass/hass_venv/lib/python3.4/site-packages/libopenzwave-0.3.1-py3.4-linux-armv6l.egg/config/
+  polling_interval: 60000
+  new_entity_ids: true
+
+# Allows you to issue voice commands from the frontend
+conversation:
+
+weblink:
+  entities:
+    - name: Router
+      url: !secret router
+      icon: mdi:router-wireless
+
+media_player: !include media_players.yaml
+device_tracker: !include device_tracker.yaml
+script: !include scripts.yaml
+group: !include groups.yaml
+automation: !include automations.yaml
+
+panel_custom:
+  - name: floorplan
+    sidebar_title: Floorplan
+    sidebar_icon: mdi:home
+    url_path: floorplan
+    config: !include floorplan.yaml

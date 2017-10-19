@@ -1,0 +1,245 @@
+# platform: forecast
+# api_key: b47caf446da9eab8e3705dbeb821c86f
+- platform: darksky
+  api_key: !secret darksky_key
+  monitored_conditions:
+    - apparent_temperature
+    - temperature
+    - summary
+    - dew_point
+    - wind_speed
+- platform: worldtidesinfo
+  api_key: !secret worldtides_key
+  latitude: !secret latitude
+  longitude: !secret longitude
+  name: Duxbury Beach
+- platform: pi_hole
+  host: !secret pi-hole
+- platform: ups
+  username: !secret ups_user
+  password: !secret ups_pass
+- platform: fedex
+  username: !secret fedex_user
+  password: !secret fedex_pass
+- platform: speedtest
+  minute: 30
+  hour:
+    - 0
+    - 6
+    - 12
+    - 18
+  monitored_conditions:
+#     - ping
+    - download
+    - upload
+- platform: template
+  sensors:
+    sonosoffice:
+      friendly_name: 'Sonos Play:1'
+      value_template: >-
+          {%- if is_state("device_tracker.sonosoffice", "home") %}
+              Online
+          {% else %}
+              Offline
+          {%- endif %}
+    sonosfamilyroom:
+      friendly_name: 'Sonos Play:1'
+      value_template: >-
+          {%- if is_state("device_tracker.sonosfamilyroom", "home") %}
+              Online
+          {% else %}
+              Offline
+          {%- endif %}
+    sonosbasement:
+      friendly_name: 'Sonos Play:1'
+      value_template: >-
+          {%- if is_state("device_tracker.sonosbasement", "home") %}
+              Online
+          {% else %}
+              Offline
+          {%- endif %}
+    osmcpi1b:
+      friendly_name: 'Master Bedroom OSMC'
+      value_template: >-
+          {%- if is_state("device_tracker.osmcpi1b", "home") %}
+              Online
+          {% else %}
+              Offline
+          {%- endif %}
+    osmcpi3:
+      friendly_name: 'Family Room OSMC'
+      value_template: >-
+          {%- if is_state("device_tracker.osmcpi3", "home") %}
+              Online
+          {% else %}
+              Offline
+          {%- endif %}
+    viziotv:
+      friendly_name: 'Vizio TV'
+      value_template: >-
+          {%- if is_state("device_tracker.viziotv", "home") %}
+              On
+          {% else %}
+              Off
+          {%- endif %}
+    savantremote:
+      friendly_name: 'Savant Remote'
+      value_template: >-
+          {%- if is_state("device_tracker.savantremote", "home") %}
+              Online
+          {% else %}
+              Offline
+          {%- endif %}
+    nintendoswitch:
+      friendly_name: 'Nintendo Switch'
+      value_template: >-
+          {%- if is_state("device_tracker.nintendoswitch", "home") %}
+              On
+          {% else %}
+              Off
+          {%- endif %}
+    hal9000:
+      friendly_name: 'HAL9000'
+      value_template: >-
+          {%- if is_state("device_tracker.hal9000", "home") %}
+              Online
+          {% else %}
+              Offline
+          {%- endif %}
+    sense_monitor:
+      friendly_name: 'Sense Energy Monitor'
+      value_template: >-
+          {%- if is_state("device_tracker.sense_monitor", "home") %}
+              Online
+          {% else %}
+              Offline
+          {%- endif %}
+    front_door:
+      value_template: >-
+        {%- if is_state("sensor.linear_unknown_type2001_id0102_alarm_level", "255") -%}
+          {%- if is_state("sensor.linear_unknown_type2001_id0102_burglar", "3") -%}
+            Tampered
+          {%- else -%}
+            Open
+          {%- endif %}
+        {%- else -%}
+          Closed
+        {%- endif %}
+      friendly_name: 'Front Door'
+    deck_door:
+      value_template: >-
+        {%- if is_state("sensor.linear_unknown_type2001_id0102_alarm_level_2", "255") -%}
+          {%- if is_state("sensor.linear_unknown_type2001_id0102_burglar_2", "3") -%}
+            Tampered
+          {%- else -%}
+            Open
+          {%- endif %}
+        {%- else -%}
+          Closed
+        {%- endif %}
+      friendly_name: 'Deck Door'
+    deck_storm_door:
+      value_template: >-
+        {%- if is_state("sensor.linear_unknown_type2001_id0102_alarm_level_6", "255") -%}
+          {%- if is_state("sensor.linear_unknown_type2001_id0102_burglar_6", "3") -%}
+            Tampered
+          {%- else -%}
+            Open
+          {%- endif %}
+        {%- else -%}
+          Closed
+        {%- endif %}
+      friendly_name: 'Deck Storm Door'
+    front_storm_door:
+      value_template: >-
+        {%- if is_state("sensor.linear_unknown_type2001_id0102_alarm_level_5", "255") -%}
+          {%- if is_state("sensor.linear_unknown_type2001_id0102_burglar_5", "3") -%}
+            Tampered
+          {%- else -%}
+            Open
+          {%- endif %}
+        {%- else -%}
+          Closed
+        {%- endif %}
+      friendly_name: 'Front Storm Door'
+    basement_door:
+      value_template: >-
+        {%- if is_state("sensor.linear_unknown_type2001_id0102_alarm_level_3", "255") -%}
+          {%- if is_state("sensor.linear_unknown_type2001_id0102_burglar_3", "3") -%}
+            Tampered
+          {%- else -%}
+            Open
+          {%- endif %}
+        {%- else -%}
+          Closed
+        {%- endif %}
+      friendly_name: 'Basement Door'
+    basement_garage_door:
+      value_template: >-
+        {%- if is_state("sensor.linear_unknown_type2001_id0102_alarm_level_7", "255") -%}
+          {%- if is_state("sensor.linear_unknown_type2001_id0102_burglar_7", "3") -%}
+            Tampered
+          {%- else -%}
+            Open
+          {%- endif %}
+        {%- else -%}
+          Closed
+        {%- endif %}
+      friendly_name: 'Basement Garage Door'
+    kate_garage_door:
+      value_template: >-
+        {%- if is_state("sensor.linear_unknown_type2001_id0102_alarm_level_8", "255") -%}
+          {%- if is_state("sensor.linear_unknown_type2001_id0102_burglar_8", "3") -%}
+            Tampered
+          {%- else -%}
+            Open
+          {%- endif %}
+        {%- else -%}
+          Closed
+        {%- endif %}
+      icon_template: '{% if is_state("sensor.kate_garage_door", "Closed") %}mdi:garage{% else %}mdi:garage-open{% endif %}'
+      friendly_name: 'Katies Garage Door'
+    greg_garage_door:
+      value_template: >-
+        {%- if is_state("sensor.linear_unknown_type2001_id0102_alarm_level_9", "255") -%}
+          {%- if is_state("sensor.linear_unknown_type2001_id0102_burglar_9", "3") -%}
+            Tampered
+          {%- else -%}
+            Open
+          {%- endif %}
+        {%- else -%}
+          Closed
+        {%- endif %}
+      icon_template: '{% if is_state("sensor.greg_garage_door", "Closed") %}mdi:garage{% else %}mdi:garage-open{% endif %}'
+      friendly_name: 'Gregs Garage Door'
+    familyroom_french_door:
+      value_template: >-
+        {%- if is_state("sensor.linear_unknown_type2001_id0102_alarm_level_4", "255") -%}
+          {%- if is_state("sensor.linear_unknown_type2001_id0102_burglar_4", "3") -%}
+            Tampered
+          {%- else -%}
+            Open
+          {%- endif %}
+        {%- else -%}
+          Closed
+        {%- endif %}
+      friendly_name: 'Family Room French Door'
+    office_motion:
+      value_template: >-
+        {%- if is_state("sensor.linear_unknown_type2002_id0203_alarm_level", "255") -%}
+          {%- if is_state("sensor.linear_unknown_type2002_id0203_burglar", "3") -%}
+            Tampered
+          {%- else -%}
+            detected
+          {%- endif %}
+        {%- else -%}
+          clear
+        {%- endif %}
+      friendly_name: 'Office Occupancy'
+    tide_duxbury_beach_next_high:
+      value_template: '{{ as_timestamp(states.sensor.duxbury_beach.attributes.high_tide_time_utc) | timestamp_custom("%a %d/%m %H:%M") }}'
+      friendly_name: "Next High Tide"
+    tide_duxbury_beach_next_low:
+      value_template: '{{ as_timestamp(states.sensor.duxbury_beach.attributes.low_tide_time_utc) | timestamp_custom("%a %d/%m %H:%M") }}'
+      friendly_name: "Next Low Tide"
+

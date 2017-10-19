@@ -1,0 +1,12 @@
+- platform: sonos
+  hosts:
+    - !secret sonos_1
+    - !secret sonos_2
+    - !secret sonos_3
+- platform: kodi
+  host: !secret family_room_osmc
+  name: Family Room OSMC
+- platform: kodi
+  host: !secret master_bedroom_osmc
+  name: Master Bedroom OSMC
+
