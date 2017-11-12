@@ -3,16 +3,16 @@ default_view:
   icon: mdi:home
   entities:
     - group.network
-    - group.weather
+    - group.climate
     - group.mail
-alarm:
- name: Alarm
- view: yes
- icon: mdi:shield
- entities:
-  - alarm_control_panel.ha_alarm
-  - group.doors
-  - group.motion_sensors
+#alarm:
+# name: Alarm
+# view: yes
+# icon: mdi:shield
+# entities:
+#  - alarm_control_panel.ha_alarm
+#  - group.doors
+#  - group.motion_sensors
 lights:
   name: lights
   view: yes
@@ -73,10 +73,17 @@ Network:
   - sensor.speedtest_upload
   - weblink.router
   - switch.pihole_temp_disable
+  - sensor.pihole_ads_percentage_blocked_today
+  - sensor.pihole_ads_blocked_today
+  - sensor.pihole_dns_queries_today
   - sensor.sense_monitor
   - sensor.hal9000
   - sensor.osmcpi3
   - sensor.osmcpi1b
+  - sensor.transmission_status
+  - sensor.transmission_active_torrents
+  - sensor.transmission_down_speed
+  - sensor.transmission_up_speed
 Office:
   - sensor.linear_unknown_type2002_id0203_temperature
   - sensor.office_motion
@@ -96,7 +103,7 @@ Basement:
   - media_player.basement_cast
   - sensor.sonosbasement
   - media_player.playroom
-  - camera.ip_webcam
+#  - camera.ip_webcam
 Master Bedroom:
   - binary_sensor.upstairs_occupancy
   - sensor.upstairs_temperature
@@ -109,17 +116,19 @@ Janes Room:
 Guest Room 1:
   - binary_sensor.guest_room_1_occupancy
   - sensor.guest_room_1_temperature
-Weather:
+Climate:
   - camera.bos
   - sensor.dark_sky_summary
   - sensor.dark_sky_apparent_temperature
   - sensor.dark_sky_wind_speed
   - sensor.tide_duxbury_beach_next_high
   - sensor.tide_duxbury_beach_next_low
+  - sensor.upstairs_temperature
+  - sensor.guest_room_1_temperature
+  - sensor.janes_room_temperature
 Mail:
   - camera.usps_mail
   - sensor.usps_mail
   - sensor.usps_packages
   - sensor.ups
   - sensor.fedex
-

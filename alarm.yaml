@@ -1,6 +1,36 @@
-platform: manual
-name: "HA Alarm"
+platform: bwalarm
+name: House
 code: !secret alarm_code
-pending_time: 30
+pending_time: 25
 trigger_time: 600
-disarm_after_trigger: false
+alarm: automation.alarm_triggered
+warning: automation.alarm_warning
+clock: True
+
+#### COLOURS ###### Use any HTML format
+warning_colour: 'orange'
+pending_colour: 'orange'
+disarmed_colour: '#03A9F4'
+armed_home_colour: 'black'
+armed_away_colour: 'black'
+triggered_colour: 'red'
+
+immediate:
+   - binary_sensor.upstairs_occupancy
+   - binary_sensor.janes_room_occupancy
+   - binary_sensor.guest_room_1_occupancy
+delayed:
+   - sensor.front_door
+   - sensor.front_storm_door
+   - sensor.deck_door
+   - sensor.deck_storm_door
+   - sensor.basement_door
+   - sensor.basement_garage_door
+   - sensor.kate_garage_door
+   - sensor.greg_garage_door
+   - sensor.familyroom_french_door
+notathome:
+     - sensor.office_motion
+     - binary_sensor.upstairs_occupancy
+     - binary_sensor.janes_room_occupancy
+     - binary_sensor.guest_room_1_occupancy

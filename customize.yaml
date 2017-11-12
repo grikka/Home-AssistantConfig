@@ -134,8 +134,8 @@ device_tracker.gm_iphone:
   hidden: true
 device_tracker.ecobee_mb:
   hidden: true
-sensor.pihole_ads_blocked_today:
-  hidden: true
+sensor.pihole_ads_percentage_blocked_today:
+  friendly_name: "Ads % Blocked Today"
 sensor.dark_sky_dew_point:
   hidden: true
 sensor.dark_sky_temperature:
@@ -150,4 +150,3 @@ sensor.tide_duxbury_beach_next_low:
   icon: mdi:beach
 sensor.tide_duxbury_beach_next_high:
   icon: mdi:beach
-

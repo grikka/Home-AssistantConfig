@@ -1,5 +1,3 @@
-# platform: forecast
-# api_key: b47caf446da9eab8e3705dbeb821c86f
 - platform: darksky
   api_key: !secret darksky_key
   monitored_conditions:
@@ -8,6 +6,8 @@
     - summary
     - dew_point
     - wind_speed
+    - precip_intensity
+    - precip_type
 - platform: worldtidesinfo
   api_key: !secret worldtides_key
   latitude: !secret latitude
@@ -32,6 +32,15 @@
 #     - ping
     - download
     - upload
+- platform: transmission
+  host: !secret transmission_host
+  username: !secret transmission_user
+  password: !secret transmission_pass
+  monitored_variables:
+    - 'current_status'
+    - 'download_speed'
+    - 'upload_speed'
+    - 'active_torrents'
 - platform: template
   sensors:
     sonosoffice:
@@ -125,6 +134,7 @@
         {%- else -%}
           Closed
         {%- endif %}
+      icon_template: '{% if is_state("sensor.front_door", "Closed") %}mdi:door-closed{% else %}mdi:door-open{% endif %}'
       friendly_name: 'Front Door'
     deck_door:
       value_template: >-
@@ -137,6 +147,7 @@
         {%- else -%}
           Closed
         {%- endif %}
+      icon_template: '{% if is_state("sensor.deck_door", "Closed") %}mdi:door-closed{% else %}mdi:door-open{% endif %}'
       friendly_name: 'Deck Door'
     deck_storm_door:
       value_template: >-
@@ -149,6 +160,7 @@
         {%- else -%}
           Closed
         {%- endif %}
+      icon_template: '{% if is_state("sensor.deck_storm_door", "Closed") %}mdi:door-closed{% else %}mdi:door-open{% endif %}'
       friendly_name: 'Deck Storm Door'
     front_storm_door:
       value_template: >-
@@ -161,6 +173,7 @@
         {%- else -%}
           Closed
         {%- endif %}
+      icon_template: '{% if is_state("sensor.front_storm_door", "Closed") %}mdi:door-closed{% else %}mdi:door-open{% endif %}'
       friendly_name: 'Front Storm Door'
     basement_door:
       value_template: >-
@@ -173,6 +186,7 @@
         {%- else -%}
           Closed
         {%- endif %}
+      icon_template: '{% if is_state("sensor.basement_door", "Closed") %}mdi:door-closed{% else %}mdi:door-open{% endif %}'
       friendly_name: 'Basement Door'
     basement_garage_door:
       value_template: >-
@@ -185,6 +199,7 @@
         {%- else -%}
           Closed
         {%- endif %}
+      icon_template: '{% if is_state("sensor.basement_garage_door", "Closed") %}mdi:door-closed{% else %}mdi:door-open{% endif %}'
       friendly_name: 'Basement Garage Door'
     kate_garage_door:
       value_template: >-
@@ -223,6 +238,7 @@
         {%- else -%}
           Closed
         {%- endif %}
+      icon_template: '{% if is_state("sensor.familyroom_french_door", "Closed") %}mdi:door-closed{% else %}mdi:door-open{% endif %}'
       friendly_name: 'Family Room French Door'
     office_motion:
       value_template: >-
@@ -242,4 +258,3 @@
     tide_duxbury_beach_next_low:
       value_template: '{{ as_timestamp(states.sensor.duxbury_beach.attributes.low_tide_time_utc) | timestamp_custom("%a %d/%m %H:%M") }}'
       friendly_name: "Next Low Tide"
-

@@ -183,4 +183,32 @@
   action:
     - service_template: light.turn_off
       entity_id: light.office_light_level
-
+- id: rainy_day_lights
+  alias: 'Rainy Day'
+  trigger:
+    - platform: state
+      entity_id: sensor.dark_sky_precip
+      to: 'rain'
+  condition:
+    - condition: state
+      entity_id: group.family
+      state: 'home'
+    - condition: time
+      after: '8:00'
+      before: '23:00'
+  action:
+    service: light.turn_on
+    entity_id: light.office_light_level
+- id: rainy_day_over
+  alias: 'Rain is over'
+  trigger:
+    - platform: state
+      entity_id: sensor.dark_sky_precip_intensity
+      to: 'None'
+  condition:
+    - condition: sun
+      after: 'sunset'
+      after_offset: '-01:00:00'
+  action:
+    service: light.turn_off
+    entity_id: light.office_light_level
