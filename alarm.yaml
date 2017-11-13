@@ -1,13 +1,13 @@
 platform: bwalarm
 name: House
 code: !secret alarm_code
-pending_time: 25
+pending_time: 25 #Grace time in seconds to allow for exit and entry using Away mode
 trigger_time: 600
 alarm: automation.alarm_triggered
 warning: automation.alarm_warning
 clock: True
 
-#### COLOURS ###### Use any HTML format
+#### COLOURS ###########  Use any HTML format
 warning_colour: 'orange'
 pending_colour: 'orange'
 disarmed_colour: '#03A9F4'
@@ -15,10 +15,13 @@ armed_home_colour: 'black'
 armed_away_colour: 'black'
 triggered_colour: 'red'
 
+# Sensors in this group tigger the alarm immediately
 immediate:
    - binary_sensor.upstairs_occupancy
    - binary_sensor.janes_room_occupancy
    - binary_sensor.guest_room_1_occupancy
+
+# Sensors in this group start the clock (pending_time) when tripped before the alarm is activated in 'Away' mode
 delayed:
    - sensor.front_door
    - sensor.front_storm_door
@@ -29,8 +32,15 @@ delayed:
    - sensor.kate_garage_door
    - sensor.greg_garage_door
    - sensor.familyroom_french_door
-notathome:
-     - sensor.office_motion
-     - binary_sensor.upstairs_occupancy
-     - binary_sensor.janes_room_occupancy
-     - binary_sensor.guest_room_1_occupancy
+
+# Same as notathome but hopefully the title is more self explanatory. Can still use notathome for backwards compatibility
+# Note sensors can exist in more than one group notice top_floor appears in two groups
+homemodeignore:
+   - sensor.office_motion
+   - binary_sensor.upstairs_occupancy
+   - binary_sensor.janes_room_occupancy
+   - binary_sensor.guest_room_1_occupancy
+
+# Use this group to automatically override the warning message on open sensors when setting 'away' mode. (I use this as I have a motion sensor at the front door)
+override:
+   - sensor.office_motion

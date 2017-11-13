@@ -63,7 +63,7 @@
   alias: Security - Disarmed
   trigger:
     platform: state
-    entity_id: alarm_control_panel.ha_alarm
+    entity_id: alarm_control_panel.house
     to: disarmed
   action:
     service: notify.ios_gm_iphone
@@ -94,7 +94,7 @@
       to: detected
   condition:
     condition: state
-    entity_id: alarm_control_panel.ha_alarm
+    entity_id: alarm_control_panel.house
     state: armed_away
   action:
     service: notify.ios_gm_iphone
@@ -121,7 +121,7 @@
     to: Open
   condition:
     condition: state
-    entity_id: alarm_control_panel.ha_alarm
+    entity_id: alarm_control_panel.house
     state: armed_home
   action:
     service: notify.ios_gm_iphone
@@ -134,28 +134,32 @@
   alias: Alarm Away when Leave home
   trigger:
     platform: state
-    entity_id:
-      - device_tracker.greg
-      - device_tracker.katie
+    entity_id: device_tracker.greg, device_tracker.katie
     from: home
     to: not_home
+    for:
+      hours: 0
+      minutes: 15
+      seconds: 0
   action:
-    service: alarm_control_panel.security_arm_away
-    entity_id: alarm_control_panel.ha_alarm
+    service: alarm_control_panel.alarm_arm_away
+    entity_id: alarm_control_panel.house
     data:
       code: !secret alarm_code
 - id: alarm_disarm_on_return
   alias: Alarm disarm when return home
   trigger:
-    platform: state
-    entity_id:
-      - device_tracker.greg
-      - device_tracker.katie
-    from: not_home
-    to: home
+    - platform: state
+      entity_id: device_tracker.greg
+      from: not_home
+      to: home
+    - platform: state
+      entity_id: device_tracker.katie
+      from: not_home
+      to: home
   action:
-    service: alarm_control_panel.security_disarm
-    entity_id: alarm_control_panel.ha_alarm
+    service: alarm_control_panel.alarm_disarm
+    entity_id: alarm_control_panel.house
     data:
       code: !secret alarm_code
 - id: turn_office_light_on_night_motion
