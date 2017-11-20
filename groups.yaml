@@ -123,6 +123,7 @@ Climate:
   - sensor.dark_sky_wind_speed
   - sensor.tide_duxbury_beach_next_high
   - sensor.tide_duxbury_beach_next_low
+  - sensor.linear_unknown_type2002_id0203_temperature
   - sensor.upstairs_temperature
   - sensor.guest_room_1_temperature
   - sensor.janes_room_temperature
