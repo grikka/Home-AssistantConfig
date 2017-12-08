@@ -21,6 +21,7 @@ triggered_colour: 'red'
 ############# SENSOR GROUPS ########################
 # Sensors in this group tigger the alarm immediately
 immediate:
+   - binary_sensor.dining_occupancy
    - binary_sensor.upstairs_occupancy
    - binary_sensor.janes_room_occupancy
    - binary_sensor.guest_room_1_occupancy
@@ -41,6 +42,7 @@ delayed:
 # Note sensors can exist in more than one group notice top_floor appears in two groups
 homemodeignore:
    - sensor.office_motion
+   - binary_sensor.dining_occupancy
    - binary_sensor.upstairs_occupancy
    - binary_sensor.janes_room_occupancy
    - binary_sensor.guest_room_1_occupancy

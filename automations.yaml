@@ -15,6 +15,7 @@
       data:
         push:
           badge: 5
+
 - id: basement_door_night
   alias: Basement door (night)
   trigger:
@@ -32,6 +33,7 @@
       data:
         push:
           badge: 1
+
 - id: front_door_night
   alias: Front door (night)
   trigger:
@@ -49,6 +51,7 @@
       data:
         push:
           badge: 10
+
 - id: night_theme
   alias: Set dark theme for the night
   initial_state: true
@@ -59,109 +62,7 @@
   - service: frontend.set_theme
     data:
       name: darkcyan
-- id: security_disarm
-  alias: Security - Disarmed
-  trigger:
-    platform: state
-    entity_id: alarm_control_panel.house
-    to: disarmed
-  action:
-    service: notify.ios_gm_iphone
-    data:
-      message: clear_badge
-- id: security_arm_away
-  alias: Security - Armed Away
-  trigger:
-    - platform: state
-      entity_id:
-       - sensor.front_door
-       - sensor.front_storm_door
-       - sensor.deck_door
-       - sensor.deck_storm_door
-       - sensor.basement_door
-       - sensor.basement_garage_door
-       - sensor.kate_garage_door
-       - sensor.greg_garage_door
-       - sensor.familyroom_french_door
-      from: Closed
-      to: Open
-    - platform: state
-      entity_id:
-       - sensor.office_motion
-       - binary_sensor.upstairs_occupancy
-       - binary_sensor.janes_room_occupancy
-      from: clear
-      to: detected
-  condition:
-    condition: state
-    entity_id: alarm_control_panel.house
-    state: armed_away
-  action:
-    service: notify.ios_gm_iphone
-    data:
-      message: Danger! Danger! Door breach and motion detected!
-      data:
-        push:
-          badge: 666
-- id: security_arm_home
-  alias: Security - Armed Home
-  trigger:
-    platform: state
-    entity_id:
-     - sensor.front_door
-     - sensor.front_storm_door
-     - sensor.deck_door
-     - sensor.deck_storm_door
-     - sensor.basement_door
-     - sensor.basement_garage_door
-     - sensor.kate_garage_door
-     - sensor.greg_garage_door
-     - sensor.familyroom_french_door
-    from: Closed
-    to: Open
-  condition:
-    condition: state
-    entity_id: alarm_control_panel.house
-    state: armed_home
-  action:
-    service: notify.ios_gm_iphone
-    data:
-      message: Door Breach!
-      data:
-        push:
-          badge: 123
-- id: alarm_arm_on_away
-  alias: Alarm Away when Leave home
-  trigger:
-    platform: state
-    entity_id: device_tracker.greg, device_tracker.katie
-    from: home
-    to: not_home
-    for:
-      hours: 0
-      minutes: 15
-      seconds: 0
-  action:
-    service: alarm_control_panel.alarm_arm_away
-    entity_id: alarm_control_panel.house
-    data:
-      code: !secret alarm_code
-- id: alarm_disarm_on_return
-  alias: Alarm disarm when return home
-  trigger:
-    - platform: state
-      entity_id: device_tracker.greg
-      from: not_home
-      to: home
-    - platform: state
-      entity_id: device_tracker.katie
-      from: not_home
-      to: home
-  action:
-    service: alarm_control_panel.alarm_disarm
-    entity_id: alarm_control_panel.house
-    data:
-      code: !secret alarm_code
+
 - id: turn_office_light_on_night_motion
   alias: Office light on when motion at night
   trigger:
@@ -175,6 +76,7 @@
   action:
     - service: light.turn_on
       entity_id: light.office_light_level
+
 - id: turn_office_light_off_after_5_min
   alias: Office light off after 5 min when motion off
   trigger:
@@ -187,6 +89,7 @@
   action:
     - service_template: light.turn_off
       entity_id: light.office_light_level
+
 - id: rainy_day_lights
   alias: 'Rainy Day'
   trigger:
@@ -203,6 +106,7 @@
   action:
     service: light.turn_on
     entity_id: light.office_light_level
+
 - id: rainy_day_over
   alias: 'Rain is over'
   trigger:
@@ -216,3 +120,90 @@
   action:
     service: light.turn_off
     entity_id: light.office_light_level
+
+- id: alarm_armed_away
+  alias: '[Alarm] Away Mode Armed'
+  trigger:
+  - platform: state
+    entity_id: alarm_control_panel.house
+    to: 'armed_away'
+  action:
+  - data:
+      message: 'Alarm Away Mode Armed'
+      target: email/gregory.mills@gmail.com
+    service: notify.pushbullet
+  - data:
+      message: 'The house alarm has been switched on in away mode. Goodbye'
+    service: notify.example_phone_tts
+
+- id: alarm_armed_home
+  alias: '[Alarm] Home Mode Armed'
+  trigger:
+  - platform: state
+    entity_id: alarm_control_panel.house
+    to: 'armed_home'
+  action:
+  - data:
+      message: 'Alarm Home Mode Armed'
+      target: email/gregory.mills@gmail.com
+    service: notify.pushbullet
+  - data:
+      message: 'The house alarm has been switched on in home mode. Goodnight'
+    service: notify.example_phone_tts
+
+- id: alarm_arming_away
+  alias: '[Alarm] Away Mode Arming'
+  trigger:
+  - platform: state
+    entity_id: alarm_control_panel.house
+    to: 'pending'
+  action:
+  - data:
+      message: 'House alarm activating, ensure all doors and windows are closed'
+    service: notify.example_phone_tts
+
+- id: alarm_disarmed
+  alias: '[Alarm] Disarmed'
+  trigger:
+  - platform: state
+    entity_id: alarm_control_panel.house
+    to: 'disarmed'
+  action:
+  - service: notify.pushbullet
+    data:
+      message: 'Alarm Disabled'
+      target: email/gregory.mills@gmail.com
+  - service: switch.turn_off
+    entity_id: switch.siren_switch
+  - data:
+      message: 'The house alarm has been Deactivated'
+    service: notify.example_phone_tts
+
+- id: alarm_triggered
+  alias: '[Alarm] Triggered'
+  trigger:
+  - platform: state
+    entity_id: alarm_control_panel.house
+    to: 'triggered'
+  action:
+  - service: switch.turn_on
+    entity_id: switch.siren_switch
+  - service: notify.pushbullet
+    data:
+      message: 'ALARM TRIGGERED!!! {{ states[states.alarm_control_panel.house.attributes.changed_by.split(".")[0]][ states.alarm_control_panel.house.attributes.changed_by.split(".")[1]].name }}'
+      target: email/gregory.mills@gmail.com
+
+- id: alarm_warning
+  alias: '[Alarm] Warning'
+  trigger:
+  - platform: state
+    entity_id: alarm_control_panel.house
+    to: 'warning'
+  action:
+  - service: notify.pushbullet
+    data:
+      message: 'ALARM Warning {{ states[states.alarm_control_panel.house.attributes.changed_by.split(".")[0]][ states.alarm_control_panel.house.attributes.changed_by.split(".")[1]].name }}'
+      target: email/gregory.mills@gmail.com
+  - data:
+      message: 'Hello, the house alarm has been tripped. Please deactivate'
+    service: notify.example_phone_tts

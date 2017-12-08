@@ -61,15 +61,20 @@ google:
   client_id: !secret google_id
   client_secret: !secret google_secret
 
-nest:
-  username: !secret nest_user
-  password: !secret nest_password
+# nest:
+#  username: !secret nest_user
+#  password: !secret nest_password
 
 climate:
   platform: nest
 
 ecobee:
   api_key: !secret ecobee_key
+
+notify:
+  - platform: pushbullet
+    name: pushbullet
+    api_key: !secret pushbullet_api
 
 # Enables the frontend
 frontend:

@@ -2,7 +2,6 @@ default_view:
   view: yes
   icon: mdi:home
   entities:
-    - group.network
     - group.climate
     - group.mail
 #alarm:
@@ -24,6 +23,7 @@ main:
   view: yes
   entities:
     - group.family_room
+    - group.dining_room
     - group.office
     - group.zones
 up:
@@ -68,6 +68,8 @@ zones:
   entities:
     - binary_sensor.floorplan
 Network:
+  icon: mdi:server-network
+  view: yes
   - sensor.speedtest_ping
   - sensor.speedtest_download
   - sensor.speedtest_upload
@@ -97,6 +99,10 @@ Family Room:
   - media_player.living_room
   - media_player.living_room_osmc
   - light.family_room_table_light_level
+Dining Room:
+  - binary_sensor.dining_occupancy
+  - sensor.dining_temperature
+  - sensor.dining_humidity
 Basement:
   - sensor.savantremote
   - sensor.nintendoswitch
@@ -124,6 +130,7 @@ Climate:
   - sensor.tide_duxbury_beach_next_high
   - sensor.tide_duxbury_beach_next_low
   - sensor.linear_unknown_type2002_id0203_temperature
+  - sensor.dining_temperature
   - sensor.upstairs_temperature
   - sensor.guest_room_1_temperature
   - sensor.janes_room_temperature
