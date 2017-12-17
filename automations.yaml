@@ -11,7 +11,7 @@
   action:
     service: notify.ios_gm_iphone
     data:
-      message: Deck door open *late night*
+      message: Deck door open
       data:
         push:
           badge: 5
@@ -29,7 +29,7 @@
   action:
     service: notify.ios_gm_iphone
     data:
-      message: Basement door open *late night*
+      message: Basement door open
       data:
         push:
           badge: 1
@@ -47,7 +47,7 @@
   action:
     service: notify.ios_gm_iphone
     data:
-      message: Front door open *late night*
+      message: Front door open
       data:
         push:
           badge: 10
@@ -66,36 +66,39 @@
 - id: turn_office_light_on_night_motion
   alias: Office light on when motion at night
   trigger:
-    - platform: state
-      entity_id: sensor.office_motion
-      to: 'detected'
+    platform: state
+    entity_id: sensor.office_motion
+    to: 'detected'
   condition:
-    - condition: sun
-      after: sunset
-      after_offset: "-00:45:00"
+    condition: sun
+    after: sunset
+    after_offset: "-00:45:00"
   action:
-    - service: light.turn_on
-      entity_id: light.office_light_level
+    service: light.turn_on
+    entity_id: light.office_light_level
 
 - id: turn_office_light_off_after_5_min
   alias: Office light off after 5 min when motion off
   trigger:
-    - platform: state
-      entity_id: sensor.office_motion
-      to: 'clear'
-      for:
-        minutes: 5
-        seconds: 00
+    platform: state
+    entity_id: sensor.office_motion
+    to: 'clear'
+    for:
+      minutes: 5
+      seconds: 00
   action:
-    - service_template: light.turn_off
-      entity_id: light.office_light_level
+    service_template: light.turn_off
+    entity_id: light.office_light_level
 
-- id: rainy_day_lights
-  alias: 'Rainy Day'
+- id: rain_snow_day_lights
+  alias: 'Rain/Snow Day'
   trigger:
     - platform: state
       entity_id: sensor.dark_sky_precip
       to: 'rain'
+    - platform: state
+      entity_id: sensor.dark_sky_precip
+      to: 'snow'
   condition:
     - condition: state
       entity_id: group.family
@@ -107,16 +110,16 @@
     service: light.turn_on
     entity_id: light.office_light_level
 
-- id: rainy_day_over
-  alias: 'Rain is over'
+- id: rain_snow_day_over
+  alias: 'Rain/Snow is over'
   trigger:
-    - platform: state
-      entity_id: sensor.dark_sky_precip_intensity
-      to: 'None'
+    platform: state
+    entity_id: sensor.dark_sky_precip_intensity
+    to: 'None'
   condition:
-    - condition: sun
-      after: 'sunset'
-      after_offset: '-01:00:00'
+    condition: sun
+    after: 'sunset'
+    after_offset: '-01:00:00'
   action:
     service: light.turn_off
     entity_id: light.office_light_level
@@ -124,71 +127,83 @@
 - id: alarm_armed_away
   alias: '[Alarm] Away Mode Armed'
   trigger:
-  - platform: state
+    platform: state
     entity_id: alarm_control_panel.house
     to: 'armed_away'
   action:
-  - data:
+    data:
       message: 'Alarm Away Mode Armed'
       target: email/gregory.mills@gmail.com
     service: notify.pushbullet
-  - data:
-      message: 'The house alarm has been switched on in away mode. Goodbye'
-    service: notify.example_phone_tts
+  #- service: script.sonos_say
+  #  data:
+  #    sonos_entity: media_player.office
+  #    volume: 0.5
+  #    message: 'The house alarm has been switched on in away mode. Goodbye'
+  #    delay: '00:00:05'
 
 - id: alarm_armed_home
   alias: '[Alarm] Home Mode Armed'
   trigger:
-  - platform: state
+    platform: state
     entity_id: alarm_control_panel.house
     to: 'armed_home'
   action:
-  - data:
+    data:
       message: 'Alarm Home Mode Armed'
       target: email/gregory.mills@gmail.com
     service: notify.pushbullet
-  - data:
-      message: 'The house alarm has been switched on in home mode. Goodnight'
-    service: notify.example_phone_tts
+  #- service: script.sonos_say
+  #  data:
+  #    sonos_entity: media_player.office
+  #    volume: 0.5
+  #    message: 'The house alarm has been switched on in home mode. Goodnight'
+  #    delay: '00:00:05'
 
 - id: alarm_arming_away
   alias: '[Alarm] Away Mode Arming'
   trigger:
-  - platform: state
+    platform: state
     entity_id: alarm_control_panel.house
     to: 'pending'
   action:
-  - data:
-      message: 'House alarm activating, ensure all doors and windows are closed'
-    service: notify.example_phone_tts
+  #- service: script.sonos_say
+  #  data:
+  #    sonos_entity: media_player.office
+  #    volume: 0.5
+  #    message: 'House alarm activating, ensure all doors and windows are closed'
+  #    delay: '00:00:05'
 
 - id: alarm_disarmed
   alias: '[Alarm] Disarmed'
   trigger:
-  - platform: state
+    platform: state
     entity_id: alarm_control_panel.house
     to: 'disarmed'
   action:
-  - service: notify.pushbullet
+    service: notify.pushbullet
     data:
       message: 'Alarm Disabled'
       target: email/gregory.mills@gmail.com
-  - service: switch.turn_off
-    entity_id: switch.siren_switch
-  - data:
-      message: 'The house alarm has been Deactivated'
-    service: notify.example_phone_tts
+  #- service: switch.turn_off
+  #  entity_id: switch.siren_switch
+  #- service: script.sonos_say
+  #  data:
+  #    sonos_entity: media_player.office
+  #    volume: 0.5
+  #    message: 'The house alarm has been Deactivated'
+  #    delay: '00:00:05'
 
 - id: alarm_triggered
   alias: '[Alarm] Triggered'
   trigger:
-  - platform: state
+    platform: state
     entity_id: alarm_control_panel.house
     to: 'triggered'
   action:
-  - service: switch.turn_on
-    entity_id: switch.siren_switch
-  - service: notify.pushbullet
+  #- service: switch.turn_on
+  #  entity_id: switch.siren_switch
+    service: notify.pushbullet
     data:
       message: 'ALARM TRIGGERED!!! {{ states[states.alarm_control_panel.house.attributes.changed_by.split(".")[0]][ states.alarm_control_panel.house.attributes.changed_by.split(".")[1]].name }}'
       target: email/gregory.mills@gmail.com
@@ -196,14 +211,70 @@
 - id: alarm_warning
   alias: '[Alarm] Warning'
   trigger:
-  - platform: state
+    platform: state
     entity_id: alarm_control_panel.house
     to: 'warning'
   action:
-  - service: notify.pushbullet
+    service: notify.pushbullet
     data:
       message: 'ALARM Warning {{ states[states.alarm_control_panel.house.attributes.changed_by.split(".")[0]][ states.alarm_control_panel.house.attributes.changed_by.split(".")[1]].name }}'
       target: email/gregory.mills@gmail.com
-  - data:
-      message: 'Hello, the house alarm has been tripped. Please deactivate'
-    service: notify.example_phone_tts
+  #- service: script.sonos_say
+  #  data:
+  #    sonos_entity: media_player.office
+  #    volume: 0.5
+  #    message: 'Hello, the house alarm has been tripped. Please deactivate'
+  #    delay: '00:00:05'
+
+- id: alarm_auto_home_disarm
+  alias: '[Alarm] Auto Home Disarm'
+  trigger:
+    platform: state
+    entity_id: device_tracker.greg, device_tracker.katie
+    from: 'not_home'
+    to: 'home'
+  condition:
+    condition: state
+    entity_id: alarm_control_panel.house
+    state: 'armed_away'
+  action:
+  - service: alarm_control_panel.alarm_disarm
+    entity_id: alarm_control_panel.house
+    data:
+      code: !secret alarm_code
+  - service: notify.pushbullet
+    data:
+      message: 'ALARM Auto Disarmed'
+      target: email/gregory.mills@gmail.com
+
+- id: alarm_auto_away_arm
+  alias: '[Alarm] Auto Away Arm'
+  trigger:
+    platform: state
+    entity_id: device_tracker.greg, device_tracker.katie
+    from: 'home'
+    to: 'not_home'
+  condition:
+    condition: state
+    entity_id: alarm_control_panel.house
+    state: 'disarmed'
+  action:
+  - service: alarm_control_panel.alarm_arm
+    entity_id: alarm_control_panel.house
+  - service: notify.pushbullet
+    data:
+      message: 'ALARM Auto Armed'
+      target: email/gregory.mills@gmail.com
+
+- id: alarm_night_auto_home_arm
+  alias: '[Alarm] Auto Night Home Arm'
+  trigger:
+    platform: time
+    at: '22:00:00'
+  condition:
+    condition: state
+    entity_id: alarm_control_panel.house
+    state: 'disarmed'
+  action:
+    service: alarm_control_panel.armed_home
+    entity_id: alarm_control_panel.house

@@ -2,6 +2,7 @@ default_view:
   view: yes
   icon: mdi:home
   entities:
+    - group.network
     - group.climate
     - group.mail
 #alarm:
@@ -22,10 +23,13 @@ lights:
 main:
   view: yes
   entities:
+    - climate.dining
+    - climate.kitchen
     - group.family_room
+    - group.kitchen
     - group.dining_room
     - group.office
-    - group.zones
+    #- group.zones
 up:
   view: yes
   entities:
@@ -68,37 +72,41 @@ zones:
   entities:
     - binary_sensor.floorplan
 Network:
-  icon: mdi:server-network
-  view: yes
-  - sensor.speedtest_ping
-  - sensor.speedtest_download
-  - sensor.speedtest_upload
-  - weblink.router
-  - switch.pihole_temp_disable
-  - sensor.pihole_ads_percentage_blocked_today
-  - sensor.pihole_ads_blocked_today
-  - sensor.pihole_dns_queries_today
-  - sensor.sense_monitor
-  - sensor.hal9000
-  - sensor.osmcpi3
-  - sensor.osmcpi1b
-  - sensor.transmission_status
-  - sensor.transmission_active_torrents
-  - sensor.transmission_down_speed
-  - sensor.transmission_up_speed
+   - sensor.speedtest_ping
+   - sensor.speedtest_download
+   - sensor.speedtest_upload
+   - weblink.router
+   - switch.pihole_temp_disable
+   - sensor.pihole_ads_percentage_blocked_today
+   - sensor.pihole_ads_blocked_today
+   - sensor.pihole_dns_queries_today
+   - sensor.sense_monitor
+   - sensor.hal9000
+   - sensor.osmcpi3
+   - sensor.osmcpi1b
+   - sensor.transmission_status
+   - sensor.transmission_active_torrents
+   - sensor.transmission_down_speed
+   - sensor.transmission_up_speed
 Office:
-  - sensor.linear_unknown_type2002_id0203_temperature
+  - sensor.office_temperature
   - sensor.office_motion
   - light.office_light_level
   - sensor.sonosoffice
   - media_player.office
 Family Room:
+  - binary_sensor.family_room_occupancy
+  - sensor.family_room_temperature
   - sensor.viziotv
   - sensor.osmcpi3
   - sensor.sonosfamilyroom
   - media_player.living_room
   - media_player.living_room_osmc
   - light.family_room_table_light_level
+Kitchen:
+  - binary_sensor.kitchen_occupancy
+  - sensor.kitchen_temperature
+  - sensor.kitchen_humidity
 Dining Room:
   - binary_sensor.dining_occupancy
   - sensor.dining_temperature
@@ -129,7 +137,9 @@ Climate:
   - sensor.dark_sky_wind_speed
   - sensor.tide_duxbury_beach_next_high
   - sensor.tide_duxbury_beach_next_low
-  - sensor.linear_unknown_type2002_id0203_temperature
+  - sensor.kitchen_temperature
+  - sensor.family_room_temperature
+  - sensor.office_temperature
   - sensor.dining_temperature
   - sensor.upstairs_temperature
   - sensor.guest_room_1_temperature

@@ -21,28 +21,30 @@ triggered_colour: 'red'
 ############# SENSOR GROUPS ########################
 # Sensors in this group tigger the alarm immediately
 immediate:
-   - binary_sensor.dining_occupancy
    - binary_sensor.upstairs_occupancy
    - binary_sensor.janes_room_occupancy
    - binary_sensor.guest_room_1_occupancy
+   - sensor.deck_door
+   - sensor.deck_storm_door
+   - sensor.familyroom_french_door
 
 # Sensors in this group start the clock (pending_time) when tripped before the alarm is activated in 'Away' mode
 delayed:
-   - sensor.front_door
-   - sensor.front_storm_door
-   - sensor.deck_door
-   - sensor.deck_storm_door
+   - sensor.office_motion
    - sensor.basement_door
    - sensor.basement_garage_door
    - sensor.kate_garage_door
    - sensor.greg_garage_door
-   - sensor.familyroom_french_door
+   - sensor.front_door
+   - sensor.front_storm_door
 
 # Same as notathome but hopefully the title is more self explanatory. Can still use notathome for backwards compatibility
 # Note sensors can exist in more than one group notice top_floor appears in two groups
 homemodeignore:
    - sensor.office_motion
    - binary_sensor.dining_occupancy
+   - binary_sensor.family_room_occupancy
+   - binary_sensor.kitchen_occupancy
    - binary_sensor.upstairs_occupancy
    - binary_sensor.janes_room_occupancy
    - binary_sensor.guest_room_1_occupancy

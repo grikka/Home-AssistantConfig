@@ -54,8 +54,8 @@ camera:
   still_image_url: https://radblast.wunderground.com/cgi-bin/radar/WUNIDS_map?station=BOX&brand=wui&num=10&delay=15&type=N0R&frame=0&scale=1.000&noclutter=0&showstorms=0&mapx=400&mapy=240&centerx=400&centery=240&transx=0&transy=0&showlabels=1&severe=0&rainsnow=0&lightning=0&smooth=0&rand=24452123&lat=0&lon=0&label=you
   name: BOS
 
-android_ip_webcam:
-  - host: !secret oil-cam
+#android_ip_webcam:
+#  - host: !secret oil-cam
 
 google:
   client_id: !secret google_id
@@ -65,8 +65,8 @@ google:
 #  username: !secret nest_user
 #  password: !secret nest_password
 
-climate:
-  platform: nest
+# climate:
+#  platform: nest
 
 ecobee:
   api_key: !secret ecobee_key
