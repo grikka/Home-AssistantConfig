@@ -95,6 +95,14 @@ history:
 # Enables configuration panel.
 config:
 
+# Enables Home Assistant Cloud
+cloud:
+  alexa:
+    filter:
+      include_entities:
+        - light.office_light_level
+        - light.family_room_table_light_level
+
 # Discover some devices automatically
 discovery:
 
@@ -147,3 +155,4 @@ panel_custom:
     sidebar_icon: mdi:security-home
     config:
       alarmid: alarm_control_panel.house ## USE THE SAME ID AS USED IN YOUR ALARM.YAML
+
