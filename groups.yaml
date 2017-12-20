@@ -89,8 +89,8 @@ Network:
    - sensor.transmission_down_speed
    - sensor.transmission_up_speed
 Office:
-  - sensor.office_temperature
   - sensor.office_motion
+  - sensor.office_temperature
   - light.office_light_level
   - sensor.sonosoffice
   - media_player.office
