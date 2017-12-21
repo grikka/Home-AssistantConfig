@@ -200,7 +200,7 @@
   - service: alarm_control_panel.alarm_disarm
     entity_id: alarm_control_panel.house
     data:
-      code: 4831
+      code: !secret alarm_code
   - service: notify.pushbullet
     data:
       message: ALARM Auto Disarmed
