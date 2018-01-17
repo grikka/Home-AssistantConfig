@@ -212,6 +212,8 @@
     entity_id: device_tracker.greg, device_tracker.katie
     from: home
     to: not_home
+    for:
+      minutes: 30
   condition:
     condition: state
     entity_id: alarm_control_panel.house

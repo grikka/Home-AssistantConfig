@@ -6,10 +6,8 @@
 *.bak
 *.log
 *.db*
-www
 OZW_Log.txt
 *.db-journal
-lib
 deps
 tts
 google_calendars.yaml
