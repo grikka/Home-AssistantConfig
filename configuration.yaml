@@ -71,6 +71,10 @@ google:
 ecobee:
   api_key: !secret ecobee_key
 
+rainmachine:
+  ip_address: !secrect rainmachine
+  password: !secret rainmachine_pass
+
 notify:
   - platform: pushbullet
     name: pushbullet
@@ -125,9 +129,11 @@ usps:
 
 zwave:
   usb_path: /dev/ttyACM0
-  config_path: /srv/hass/hass_venv/lib/python3.4/site-packages/libopenzwave-0.3.1-py3.4-linux-armv6l.egg/config/
-  polling_interval: 60000
-  new_entity_ids: true
+  # config_path: /srv/hass/hass_venv/lib/python3.4/site-packages/libopenzwave-0.3.1-py3.4-linux-armv6l.egg/config/
+  # config_path: /srv/homeassistant/lib/python3.5/site-packages/python_openzwave/ozw_config/
+  # polling_interval: 60000
+  # new_entity_ids: true
+  network_key: !secret zwave_key
 
 # Allows you to issue voice commands from the frontend
 conversation:
@@ -155,4 +161,3 @@ panel_custom:
     sidebar_icon: mdi:security-home
     config:
       alarmid: alarm_control_panel.house ## USE THE SAME ID AS USED IN YOUR ALARM.YAML
-

@@ -41,6 +41,14 @@
     - 'download_speed'
     - 'upload_speed'
     - 'active_torrents'
+- platform: sense
+  email: !secret sense_id
+  password: !secret sense_pass
+  monitored_conditions:
+    - active_usage
+    - active_production
+    - daily_usage
+    - daily_production
 - platform: template
   sensors:
     sonosoffice:
@@ -258,3 +266,4 @@
     tide_duxbury_beach_next_low:
       value_template: '{{ as_timestamp(states.sensor.duxbury_beach.attributes.low_tide_time_utc) | timestamp_custom("%a %d/%m %H:%M") }}'
       friendly_name: "Next Low Tide"
+

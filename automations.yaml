@@ -65,13 +65,15 @@
   - entity_id: sensor.office_motion
     platform: state
     to: detected
-  - event: sunset
-    offset: -00:45:00
-    platform: sun
   condition:
-  - after: '14:00:00'
-    before: '23:00:00'
-    condition: time
+    condition: or
+    conditions:
+    - after: sunset
+      after_offset: '-00:45:00'
+      condition: sun
+    - before: sunrise
+      before_offset: '-00:45:00'
+      condition: sun
   action:
   - entity_id: light.office_light_level
     service: light.turn_on
@@ -115,7 +117,7 @@
   condition:
     condition: sun
     after: sunset
-    after_offset: -01:00:00
+    after_offset: '-01:00:00'
   action:
     service: light.turn_off
     entity_id: light.office_light_level
@@ -237,3 +239,4 @@
   action:
     service: alarm_control_panel.armed_home
     entity_id: alarm_control_panel.house
+
